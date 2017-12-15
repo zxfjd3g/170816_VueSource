@@ -58,20 +58,29 @@ Compile.prototype = {
     });
   },
 
+  // 编译元素节点(编译它的属性)
   compile: function (node) {
+    // 得到所有的属性节点
     var nodeAttrs = node.attributes,
+      // 保存compile对象
       me = this;
-
+    // 遍历所有属性节点
     [].slice.call(nodeAttrs).forEach(function (attr) {
+      // 得到属性名: v-on:click
       var attrName = attr.name;
+      // 判断是否是指令属性
       if (me.isDirective(attrName)) {
+        // 得到表达式(属性值): test
         var exp = attr.value;
+        // 从属性名取出指令名: on:click
         var dir = attrName.substring(2);
-        // 事件指令
+        // 如果是事件指令
         if (me.isEventDirective(dir)) {
+          // 解析事件指令
           compileUtil.eventHandler(node, me.$vm, exp, dir);
-          // 普通指令
+        // 普通指令
         } else {
+          // 解析普通指令(调用指令在compileUtil中对应的方法去解析)
           compileUtil[dir] && compileUtil[dir](node, me.$vm, exp);
         }
 
@@ -112,7 +121,7 @@ var compileUtil = {
     this.bind(node, vm, exp, 'html');
   },
 
-  // 解析 {{}}/ v-model
+  // 解析 v-model
   model: function (node, vm, exp) {
     this.bind(node, vm, exp, 'model');
 
@@ -148,10 +157,14 @@ var compileUtil = {
 
   // 事件处理
   eventHandler: function (node, vm, exp, dir) {
+    // 得到事件类型(名): click
     var eventType = dir.split(':')[1],
+      // 得到methods中对应的处理函数
       fn = vm.$options.methods && vm.$options.methods[exp];
-
+    // 如果都存在
     if (eventType && fn) {
+      // 给节点绑定指定事件名和处理函数DOM事件监听
+          // 将回调函数中的this强制绑定为vm
       node.addEventListener(eventType, fn.bind(vm), false);
     }
   },
@@ -195,10 +208,7 @@ var updater = {
   // 更新节点的className属性
   classUpdater: function (node, value, oldValue) {
     var className = node.className;
-    className = className.replace(oldValue, '').replace(/\s$/, '');
-
-    var space = className && String(value) ? ' ' : '';
-
+    const space = className ? ' ' : ''
     node.className = className + space + value;
   },
 

@@ -14,6 +14,29 @@
   </style>
 </head>
 <body>
+<div id="test">
+  <p v-text="msg"></p>
+  <p v-html="msg"></p>
+  <p class="a" v-class="myClass">太费劲了!</p>
+</div>
 
+<script type="text/javascript" src="js/mvvm/compile.js"></script>
+<script type="text/javascript" src="js/mvvm/mvvm.js"></script>
+<script type="text/javascript" src="js/mvvm/observer.js"></script>
+<script type="text/javascript" src="js/mvvm/watcher.js"></script>
+<script type="text/javascript">
+  new MVVM({
+    el: '#test',
+    data: {
+      msg: '<a href="http://www.atguigu.com">尚硅谷</a>',
+      myClass: 'b'
+    },
+    methods: {
+      test () {
+        alert(this.msg)
+      }
+    }
+  })
+</script>
 </body>
 </html>
