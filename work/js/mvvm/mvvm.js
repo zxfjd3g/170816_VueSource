@@ -17,6 +17,7 @@ function MVVM(options) {
 
   observe(data, this);
 
+  // 创建Compile对象来对模板进行编译(解析)
   this.$compile = new Compile(options.el || document.body, this)
 }
 
