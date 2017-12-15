@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>06_数据劫持-数据绑定</title>
+  <!--
+    1. 数据绑定
+      * 初始化显示: 页面(表达式/指令)能从data读取数据显示 (编译/解析)
+      * 更新显示: 更新data中的属性数据==>页面更新
+  -->
+</head>
+<body>
+<div id="app">
+  <p>{{name}}</p>
+  <p>{{wife.name}}</p>
+
+  <button v-on:click="update">更新</button>
+</div>
+</body>
+<script src="js/mvvm/compile.js"></script>
+<script src="js/mvvm/observer.js"></script>
+<script src="js/mvvm/watcher.js"></script>
+<script src="js/mvvm/mvvm.js"></script>
+<script type="text/javascript">
+  var vm = new MVVM({
+    el: '#app',
+    data: {
+      name: 'DAMU',
+      wife: {
+        name: 'hehe',
+        age: 19
+      }
+    },
+    methods: {
+      update: function () {
+        this.name = 'SADAMU'
+        this.wife.name = 'MiMi'
+      }
+    }
+  })
+  console.log(vm)
+  
+</script>
+</html>

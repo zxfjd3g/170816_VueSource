@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>04_模板解析_事件指令</title>
+</head>
+<body>
+
+<div id="app">
+  <button v-on:click="test">点击</button>
+</div>
+
+<script src="js/mvvm/compile.js"></script>
+<script src="js/mvvm/observer.js"></script>
+<script src="js/mvvm/watcher.js"></script>
+<script src="js/mvvm/mvvm.js"></script>
+<script>
+  new MVVM({
+    el: '#app',
+    data: {
+      msg: 'atguigu'
+    },
+    methods: {
+      test: function (event) {
+        alert(this.msg)
+        alert(event.target.innerHTML)
+      }
+    }
+  })
+</script>
+</body>
+</html>

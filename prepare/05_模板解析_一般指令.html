@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>05_模板解析_一般指令</title>
+
+  <style>
+    .a {
+      color: red;
+    }
+    .b {
+      background: blue;
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <p v-text="msg"></p>
+  <p v-html="msg"></p>
+  <p class="b" v-class="myClass">xxxxx</p>
+
+</div>
+
+<script src="js/mvvm/compile.js"></script>
+<script src="js/mvvm/observer.js"></script>
+<script src="js/mvvm/watcher.js"></script>
+<script src="js/mvvm/mvvm.js"></script>
+<script>
+  new MVVM({
+    el: '#app',
+    data: {
+      msg: '<a href="http://www.baidu.com">百度</a>',
+      myClass: 'a'
+    }
+  })
+</script>
+</body>
+</html>

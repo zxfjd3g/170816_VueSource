@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>02_数据代理_vue</title>
+</head>
+<body>
+
+<div id="app">
+  <p>{{name}}</p>
+  <p>{{wife.name}}</p>
+</div>
+<!--
+数据代理: 一个对象(vm)去操作(读/写)另一个对象(data)的属性数据
+-->
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript">
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      name: 'damu',
+      wife: {
+        name: 'binbin',
+        age: 18
+      }
+    }
+  })
+
+  // 代理读的操作
+  console.log(vm.name)
+  console.log(vm.wife.name)
+
+  // 代理写的操作
+  vm.wife.name = 'feifei'
+  console.log(vm._data.wife.name)
+</script>
+</body>
+</html>

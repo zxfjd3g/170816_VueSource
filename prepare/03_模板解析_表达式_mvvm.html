@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>03_模板解析_表达式_vue</title>
+</head>
+<body>
+
+<div id="app">
+  <p>{{name}}</p>
+  <p>{{wife.age}}</p>
+</div>
+
+<script src="js/mvvm/compile.js"></script>
+<script src="js/mvvm/observer.js"></script>
+<script src="js/mvvm/watcher.js"></script>
+<script src="js/mvvm/mvvm.js"></script>
+<script>
+  new MVVM({
+    el: '#app',   // 选择器字符串
+    // el: document.getElementById('app'), // 元素
+    data: {
+      name: 'damu',
+      wife: {
+        name: 'binbin',
+        age: 18
+      }
+    }
+  })
+</script>
+</body>
+</html>

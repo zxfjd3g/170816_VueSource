@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="test">尚硅谷IT教育</div>
+
+<ul id="fragment_test">
+  <li>test1</li>
+  <li>test2</li>
+  <li>test3</li>
+</ul>
+
+<!--
+回调函数关注3个疸
+1. 什么时候调用?
+2. 谁调用的, this是谁?
+3. 用来做什么?
+-->
+<!--
+1. [].slice.call(lis): 将伪数组转换为真数组
+2. node.nodeType: 得到节点类型
+3. Object.defineProperty(obj, propertyName, {}): 给对象添加属性(指定描述符)
+4. Object.keys(obj): 得到对象自身可枚举属性组成的数组
+5. obj.hasOwnProperty(prop): 判断prop是否是obj自身的属性
+6. DocumentFragment: 文档碎片(高效批量更新多个节点)
+-->
+
+<script type="text/javascript">
+  //1. [].slice.call(lis): 将伪数组转换为真数组
+  var lis = document.getElementsByTagName('li')  // lis伪数组
+  console.log(lis.forEach, lis instanceof Array)
+  lis = Array.prototype.slice.call(lis)
+  console.log(lis.forEach, lis instanceof Array)
+
+
+  //2. node.nodeType: 得到节点类型
+  const elementNode = document.getElementById('test')
+  const attributeNode = elementNode.getAttributeNode('id')
+  const textNode = elementNode.firstChild
+  console.log(elementNode.nodeType, attributeNode.nodeType, textNode.nodeType)
+
+  //3. Object.defineProperty(obj, propertyName, {}): 给对象添加属性(指定描述符)
+  const obj = {
+    firstName: 'A',
+    lastName: 'B'
+  }
+  // obj.fullName = ''
+  Object.defineProperty(obj, 'fullName', { // 配置对象: 属性描述符
+
+    // 数据描述符
+
+    // 访问描述符
+    // 当读取当前属性值时自动调用, 用来返回属性值
+    get: function () {
+      console.log('get()')
+      return this.firstName + '-' + this.lastName  // 根据相关的属性值计算产生
+    },
+    // 当属性值发生了改变时自动调用, 用来监视当前属性值的变化
+    set: function (value) {
+      console.log('set()', value)
+      // 更新相关属性的属性值
+      const names = value.split('-')
+      this.firstName = names[0]
+      this.lastName = names[1]
+    }
+  })
+  console.log(obj.fullName)  // A-B   // 内部自动调用getter
+  obj.firstName = 'C'
+  console.log(obj.fullName) // C-B
+  obj.fullName = 'D-E'  // 内部自动调用setter
+  console.log(obj.firstName, obj.lastName) // D E
+
+  Object.defineProperty(obj, 'fullName2', {
+    configurable: false, // 标识是否可以重新再定义
+    enumerable: false, //是否可以枚举(遍历)
+    value: 'X-Y',
+    writable: false
+  })
+  console.log(obj.fullName2) // X-Y
+  obj.fullName2 = 'N-M'
+  console.log(obj.fullName2) // X-Y
+
+
+
+
+
+  //4. Object.keys(obj): 得到对象自身可枚举属性组成的数组
+  //5. obj.hasOwnProperty(prop): 判断prop是否是obj自身的属性
+  //6. DocumentFragment: 文档碎片(高效批量更新多个节点)
+
+  /*function mySlice(arr) {
+    var arr2 = []
+    for (var i = 0; i < arr.length; i++) {
+      arr2.push(arr[i])
+    }
+    return arr2
+  }*/
+</script>
+</body>
+</html>
