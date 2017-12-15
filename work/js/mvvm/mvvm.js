@@ -1,35 +1,48 @@
+/*
+相当于Vue的构造函数
+ */
 function MVVM(options) {
-    this.$options = options;
-    var data = this._data = this.$options.data;
-    var me = this;
+  // 保存配置对象到vm中
+  this.$options = options;
+  // 保存配置中的data到vm和变量data
+  var data = this._data = this.$options.data;
+  // 保存vm
+  var me = this;
 
-    // 数据代理
-    // 实现 vm.xxx -> vm._data.xxx
-    Object.keys(data).forEach(function(key) {
-        me._proxy(key);
-    });
+  // 遍历data中所有属性
+  Object.keys(data).forEach(function (key) {//  key是属性名  name
+    // 对指定属性名的属性实现数据代理
+    me._proxy(key);
+  });
 
-    observe(data, this);
+  observe(data, this);
 
-    this.$compile = new Compile(options.el || document.body, this)
+  this.$compile = new Compile(options.el || document.body, this)
 }
 
 MVVM.prototype = {
-    $watch: function(key, cb, options) {
-        new Watcher(this, key, cb);
-    },
+  $watch: function (key, cb, options) {
+    new Watcher(this, key, cb);
+  },
 
-    _proxy: function(key) {
-        var me = this;
-        Object.defineProperty(me, key, {
-            configurable: false,
-            enumerable: true,
-            get: function proxyGetter() {
-                return me._data[key];
-            },
-            set: function proxySetter(newVal) {
-                me._data[key] = newVal;
-            }
-        });
-    }
+  // 对指定属性名的属性实现数据代理
+  _proxy: function (key) {
+    // 保存vm
+    var me = this;
+    // 给vm添加指定属性名的属性(使用属性描述符)
+    Object.defineProperty(me, key, {
+      configurable: false, // 不能再重新定义
+      enumerable: true, // 可以枚举
+      // 获取vm的key属性值
+      get: function proxyGetter() {
+        // 读取data中对应的属性值
+        return me._data[key];
+      },
+      // 监视vm的key属性值的变化
+      set: function proxySetter(newVal) {
+        // 将最新的属性值赋值给dat中对应的属性
+        me._data[key] = newVal;
+      }
+    });
+  }
 };
