@@ -103,14 +103,16 @@ Compile.prototype = {
 
 // 编译工具对象
 var compileUtil = {
+  // 解析 {{}}/ v-text
   text: function (node, vm, exp) {
     this.bind(node, vm, exp, 'text');
   },
-
+  // 解析 v-html
   html: function (node, vm, exp) {
     this.bind(node, vm, exp, 'html');
   },
 
+  // 解析 {{}}/ v-model
   model: function (node, vm, exp) {
     this.bind(node, vm, exp, 'model');
 
@@ -127,16 +129,18 @@ var compileUtil = {
     });
   },
 
+  // 解析 v-class
   class: function (node, vm, exp) {
     this.bind(node, vm, exp, 'class');
   },
 
+  // 绑定: 实现节点的初始化显示和更新显示
   bind: function (node, vm, exp, dir) {
     // 得到对应的更新节点的函数
     var updaterFn = updater[dir + 'Updater'];
     // 调用更新函数更新节点
     updaterFn && updaterFn(node, this._getVMVal(vm, exp));
-
+    // 创建watcher对象, 实现节点的更新显示
     new Watcher(vm, exp, function (value, oldValue) {
       updaterFn && updaterFn(node, value, oldValue);
     });
