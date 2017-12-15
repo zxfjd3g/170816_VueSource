@@ -52,7 +52,7 @@
   Object.defineProperty(obj, 'fullName', { // 配置对象: 属性描述符
 
     // 数据描述符
-
+    enumerable: true,  //属性可以枚举得到
     // 访问描述符
     // 当读取当前属性值时自动调用, 用来返回属性值
     get: function () {
@@ -84,13 +84,46 @@
   obj.fullName2 = 'N-M'
   console.log(obj.fullName2) // X-Y
 
-
-
-
-
   //4. Object.keys(obj): 得到对象自身可枚举属性组成的数组
+  const names = Object.keys(obj)
+  // console.log(names)
+  names.forEach(name => {
+    console.log(name, obj[name])
+  })
+
+
   //5. obj.hasOwnProperty(prop): 判断prop是否是obj自身的属性
+  console.log(obj.hasOwnProperty('fullName2'), obj.hasOwnProperty('toString'))  // true false
+
+
   //6. DocumentFragment: 文档碎片(高效批量更新多个节点)
+
+/*
+<ul id="fragment_test">
+  <li>test1</li>
+  <li>test2</li>
+  <li>test3</li>
+</ul>
+*/
+  // 准备容器
+  const fragment = document.createDocumentFragment()
+  // 取出ul中所有的子节点转移到fragment中
+  //const nodes = ul.childNodes
+  const ul = document.getElementById('fragment_test')
+  let child
+  // 注意: 一个节点只能有一个父节点
+  while(child = ul.firstChild) {
+    fragment.appendChild(child)  // 将child从ul中移除, 并添加为fragment的子节点
+  }
+  // 更新fragment中所有li子标签
+  const nodes = fragment.childNodes
+  Array.prototype.slice.call(nodes).forEach(node => {
+    if(node.nodeType===1) { // 标签节点: li
+      node.textContent = 'atguigu'  // 此时不会更新界面
+    }
+  })
+  // 将fragment添加为ul的子节点
+  ul.appendChild(fragment) // fragment中所有的子节点成为了ul的子节点
 
   /*function mySlice(arr) {
     var arr2 = []
