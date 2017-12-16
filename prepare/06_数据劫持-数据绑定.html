@@ -10,35 +10,37 @@
   -->
 </head>
 <body>
-<div id="app">
-  <p>{{name}}</p>
-  <p>{{wife.name}}</p>
+  <div id="app">
+    <p>{{name}}</p>
+    <p>{{wife.name}}</p>
 
-  <button v-on:click="update">更新</button>
-</div>
+    <button v-on:click="update">更新</button>
+  </div>
+
+  <script src="js/mvvm/compile.js"></script>
+  <script src="js/mvvm/observer.js"></script>
+  <script src="js/mvvm/watcher.js"></script>
+  <script src="js/mvvm/mvvm.js"></script>
+  <script type="text/javascript">
+    var vm = new MVVM({
+      el: '#app',
+      data: {
+        name: 'DAMU',
+        wife: {
+          name: 'hehe',
+          age: 19
+        }
+      },
+      methods: {
+        update: function () {
+          this.name = 'SADAMU'
+          this.wife.name = 'MiMi'
+        }
+      }
+    })
+    console.log(vm)
+
+  </script>
 </body>
-<script src="js/mvvm/compile.js"></script>
-<script src="js/mvvm/observer.js"></script>
-<script src="js/mvvm/watcher.js"></script>
-<script src="js/mvvm/mvvm.js"></script>
-<script type="text/javascript">
-  var vm = new MVVM({
-    el: '#app',
-    data: {
-      name: 'DAMU',
-      wife: {
-        name: 'hehe',
-        age: 19
-      }
-    },
-    methods: {
-      update: function () {
-        this.name = 'SADAMU'
-        this.wife.name = 'MiMi'
-      }
-    }
-  })
-  console.log(vm)
-  
-</script>
+
 </html>
